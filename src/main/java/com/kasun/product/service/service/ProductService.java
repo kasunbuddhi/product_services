@@ -2,6 +2,7 @@ package com.kasun.product.service.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kasun.product.service.dto.ProductRequest;
@@ -17,7 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ProductService {
 	
-	private ProductRepository productRepository;
+	@Autowired
+	private final ProductRepository productRepository;
 
 	public void createProduct(ProductRequest productRequest) {
 		Product product = Product.productBuilder().name(productRequest.getName())
