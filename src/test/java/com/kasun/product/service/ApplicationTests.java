@@ -2,6 +2,7 @@ package com.kasun.product.service;
 
 import java.math.BigDecimal;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,6 +20,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kasun.product.service.dto.ProductRequest;
+import com.kasun.product.service.repository.ProductRepository;
 
 import ch.qos.logback.core.status.Status;
 
@@ -33,6 +35,8 @@ class ApplicationTests {
 	private MockMvc mockMvc;
 	@Autowired
 	private ObjectMapper objectMapper;
+	@Autowired
+	ProductRepository productRepository;
 	
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry dynamicPropertyRegistry) {
@@ -48,6 +52,8 @@ class ApplicationTests {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(productReqStr))
 		.andExpect(MockMvcResultMatchers.status().isCreated());
+		
+		Assertions.assertTrue(productRepository.findAll().size() == 1);
 	}
 
 	private ProductRequest getProductRequest() {
